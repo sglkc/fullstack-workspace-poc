@@ -1,5 +1,10 @@
-export default function Input() {
+import React from "preact/compat"
+
+export default function Input(props: React.HTMLProps<HTMLInputElement>) {
   return (
-    <input class="bg-red p-2" />
+    <div>
+      <label>{ props.label }</label>
+      <input class={props.class} {...props} />
+    </div>
   )
 }
