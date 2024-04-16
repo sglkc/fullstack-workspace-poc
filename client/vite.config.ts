@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import preact from '@preact/preset-vite'
+import UnoCSS from 'unocss/vite'
 import { config } from 'dotenv'
 import path from 'node:path'
 
@@ -11,7 +12,7 @@ const serverUrl = process.env.SERVER_URL || `http://localhost:${serverPort}`
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [preact()],
+  plugins: [preact(), UnoCSS()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')
