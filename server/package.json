@@ -9,11 +9,14 @@
     "start": "node build/index.js"
   },
   "dependencies": {
+    "better-sqlite3": "^9.5.0",
     "dotenv": "^16.4.5",
     "fastify": "^4.26.2",
+    "kysely": "^0.27.3",
     "tsx": "^4.7.2"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.9",
     "@types/node": "^20.12.7",
     "nodemon": "^3.1.0",
     "typescript": "^5.4.5"

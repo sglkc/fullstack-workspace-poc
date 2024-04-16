@@ -1,7 +1,14 @@
-import fastify from 'fastify'
+import { existsSync } from 'node:fs'
 import { config } from 'dotenv'
+import fastify from 'fastify'
+import { up } from './database/migrations'
+import db from './database/database'
 
 config({ path: '../.env' })
+
+if (!existsSync('./database.sqlite')) {
+  up(db).then(console.log)
+}
 
 const server = fastify()
 const serverPort = parseInt(process.env.SERVER_PORT as string) || 5173

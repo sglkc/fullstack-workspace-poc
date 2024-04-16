@@ -13,7 +13,7 @@ export function App() {
         <section class="grid gap-2">
           <Input
             label="Full Name"
-            name="name"
+            name="full_name"
             type="text"
             defaultValue="test"
             required
