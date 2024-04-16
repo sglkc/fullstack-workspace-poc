@@ -9,6 +9,7 @@
     "start": "node build/index.js"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "fastify": "^4.26.2",
     "tsx": "^4.7.2"
   },
