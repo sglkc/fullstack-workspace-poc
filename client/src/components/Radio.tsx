@@ -1,5 +1,4 @@
 import React from "preact/compat"
-import clsx from "clsx"
 
 type RadioProps = React.HTMLProps<HTMLInputElement> & {
   datalist: Record<string, string>
@@ -8,7 +7,9 @@ type RadioProps = React.HTMLProps<HTMLInputElement> & {
 export default function Radio(props: RadioProps) {
   return (
     <fieldset class="flex flex-col gap-4">
-      <legend class="py-2 md:py-4 fw-bold">{ props.label }</legend>
+      <legend class="py-2 md:py-4 fw-bold">
+        { props.label } { props.required && <span class="text-red">*</span>}
+      </legend>
 
       <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
         { Object

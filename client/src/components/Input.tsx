@@ -5,7 +5,7 @@ export default function Input(props: React.HTMLProps<HTMLInputElement>) {
   return (
     <fieldset class="flex flex-col">
       <label class="py-2 md:py-4 fw-bold" for={props.name}>
-        { props.label }
+        { props.label } { props.required && <span class="text-red">*</span> }
       </label>
       <input
         {...props}
