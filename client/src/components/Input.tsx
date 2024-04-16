@@ -3,20 +3,18 @@ import clsx from "clsx"
 
 export default function Input(props: React.HTMLProps<HTMLInputElement>) {
   return (
-    <div class="flex flex-col">
-      <label
-        class={clsx('my-2 md:my-4 fw-bold')}
-      >
+    <fieldset class="flex flex-col">
+      <label class="py-2 md:py-4 fw-bold" for={props.name}>
         { props.label }
       </label>
       <input
         {...props}
         class={clsx(
-          'p-3 appearance-none b-1 b-black fw-bold rounded-sm',
+          'p-3 appearance-none b-1 b-black fw-medium rounded-sm',
           'md:p-4',
           props.class
         )}
       />
-    </div>
+    </fieldset>
   )
 }
