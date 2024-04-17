@@ -6,7 +6,7 @@ import AccountRoutes from './routes/accounts'
 
 config({ path: '../.env' })
 
-const server = fastify({  })
+const server = fastify({ logger: true })
 const serverPort = parseInt(process.env.SERVER_PORT as string) || 5173
 
 server.register(fastifyCors)

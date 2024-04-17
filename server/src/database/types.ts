@@ -16,8 +16,8 @@ export interface AccountTable {
   birth_date: ColumnType<Date, string | undefined, string | undefined>
   gender: 'male' | 'female'
   email: string
-  github: string
-  linkedin: string
+  github: ColumnType<string, string | undefined, string | undefined>
+  linkedin: ColumnType<string, string | undefined, string | undefined>
   months_experience: number
   created_at: ColumnType<Date, string | undefined, never>
 }
