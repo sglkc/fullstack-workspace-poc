@@ -1,18 +1,21 @@
 import { config } from 'dotenv'
 import fastify from 'fastify'
+import fastifyCors from '@fastify/cors'
 import './database/migrations'
+import AccountRoutes from './routes/accounts'
 
 config({ path: '../.env' })
 
-const server = fastify()
+const server = fastify({  })
 const serverPort = parseInt(process.env.SERVER_PORT as string) || 5173
 
-// Declare a route
-server.get('/api', function (request, reply) {
-  reply.send({ hello: 'world' })
-})
+server.register(fastifyCors)
 
-// Run the server!
+server.register((instance, _opts, done) => {
+  instance.register(AccountRoutes, { prefix: '/accounts' })
+  done()
+}, { prefix: '/api' })
+
 server.listen({ port: serverPort }, function (err, address) {
   if (err) {
     server.log.error(err)
