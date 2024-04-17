@@ -2,14 +2,60 @@ import Input from '@/components/Input';
 import Button from '@/components/Button';
 import Radio from '@/components/Radio';
 import clsx from 'clsx';
+import { TargetedEvent, useRef, useState } from 'preact/compat';
+import api from '@/utils/axios';
+
+type FlashType = {
+  title: string
+  message: string
+}
+
+type FormTargetType = HTMLFormElement & {
+  full_name: HTMLInputElement
+  birth_date: HTMLInputElement
+  gender: HTMLInputElement
+  email: HTMLInputElement
+  github: HTMLInputElement
+  linkedin: HTMLInputElement
+  months_experience: HTMLInputElement
+}
 
 export function App() {
+  const [flash, setFlash] = useState<FlashType | false>(false)
+  const flashElement = useRef<HTMLDivElement>(null)
+
+  const submitForm = (e: TargetedEvent<HTMLFormElement, SubmitEvent>) => {
+    e.preventDefault()
+
+    const target = e.target as FormTargetType
+
+    api.post('/accounts', {
+      full_name: target.full_name.value,
+      birth_date: target.birth_date.value,
+      gender: target.gender.value,
+      email: target.email.value,
+      github: target.github.value,
+      linkedin: target.linkedin.value,
+      months_experience: target.months_experience.value,
+    })
+      .then(() => {
+        target.reset()
+        console.info('submitted')
+      })
+      .catch(() => {
+        flashElement.current?.scrollTo({ behavior: 'smooth' })
+        setFlash({
+          title: 'Failed submitting form',
+          message: 'Please check the form input again.'
+        })
+      })
+  }
   return (
-    <main class="mx-auto p-8 max-w-xl text-sm lg:text-base">
+    <main class="mx-auto p-8 max-w-xl text-sm">
       <h1 class="my-2 fw-black text-3xl md:text-4xl">User Registration</h1>
       <h2 class="my-4 color-gray-600">Enter your personal informations</h2>
 
-      <form class="grid gap-6 md:gap-8">
+      <form class="grid gap-6 md:gap-8" onSubmit={submitForm}>
         <section class="grid gap-2">
           <Input
             label="Full Name"
@@ -61,6 +107,16 @@ export function App() {
             required
           />
         </section>
+
+        { flash &&
+          <div
+            ref={flashElement}
+            class="p-4 grid gap-2 b-1 b-red rounded-sm bg-red-100"
+          >
+            <h3 class="fw-bold">{ flash.title }</h3>
+            <p>{ flash.message }</p>
+          </div>
+        }
 
         <section class="grid gap-2">
           <Button

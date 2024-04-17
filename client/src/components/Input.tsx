@@ -11,7 +11,7 @@ export default function Input(props: React.HTMLProps<HTMLInputElement>) {
         {...props}
         class={clsx(
           'p-3 appearance-none b-1 b-black fw-medium rounded-sm',
-          'md:p-4',
+          'md:p-4 invalid:b-red',
           props.class
         )}
       />
