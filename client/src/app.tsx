@@ -1,14 +1,10 @@
-import Input from '@/components/Input';
-import Button from '@/components/Button';
-import Radio from '@/components/Radio';
-import clsx from 'clsx';
 import { TargetedEvent, useRef, useState } from 'preact/compat';
+import clsx from 'clsx';
+import Button from '@/components/Button';
+import Input from '@/components/Input';
+import Message, { MessageProps } from '@/components/Message';
+import Radio from '@/components/Radio';
 import api from '@/utils/axios';
-
-type FlashType = {
-  title: string
-  message: string
-}
 
 type FormTargetType = HTMLFormElement & {
   full_name: HTMLInputElement
@@ -21,7 +17,7 @@ type FormTargetType = HTMLFormElement & {
 }
 
 export function App() {
-  const [flash, setFlash] = useState<FlashType | false>(false)
+  const [flash, setFlash] = useState<MessageProps | false>(false)
   const flashElement = useRef<HTMLDivElement>(null)
 
   const submitForm = (e: TargetedEvent<HTMLFormElement, SubmitEvent>) => {
@@ -40,11 +36,16 @@ export function App() {
     })
       .then(() => {
         target.reset()
-        console.info('submitted')
+        setFlash({
+          color: 'success',
+          title: 'Form submitted',
+          message: 'Thank you for your participation.'
+        })
       })
       .catch(() => {
         flashElement.current?.scrollTo({ behavior: 'smooth' })
         setFlash({
+          color: 'error',
           title: 'Failed submitting form',
           message: 'Please check the form input again.'
         })
@@ -108,15 +109,7 @@ export function App() {
           />
         </section>
 
-        { flash &&
-          <div
-            ref={flashElement}
-            class="p-4 grid gap-2 b-1 b-red rounded-sm bg-red-100"
-          >
-            <h3 class="fw-bold">{ flash.title }</h3>
-            <p>{ flash.message }</p>
-          </div>
-        }
+        { flash && <Message {...flash} /> }
 
         <section class="grid gap-2">
           <Button
