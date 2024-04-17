@@ -1,4 +1,4 @@
-import { TargetedEvent, useRef, useState } from 'preact/compat';
+import { TargetedEvent, useRef, useState } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
@@ -16,7 +16,7 @@ type FormTargetType = HTMLFormElement & {
   months_experience: HTMLInputElement
 }
 
-export function App() {
+export default function App() {
   const [flash, setFlash] = useState<MessageProps | false>(false)
   const flashElement = useRef<HTMLDivElement>(null)
 
@@ -128,9 +128,11 @@ export function App() {
             <hr class="b-1.5 b-black" />
           </div>
 
-          <Button class="bg-transparent" type="button">
-            See registered accounts
-          </Button>
+          <a class="grid" href="/list">
+            <Button class="bg-transparent" role="link" type="button">
+              See registered accounts
+            </Button>
+          </a>
         </section>
       </form>
     </main>

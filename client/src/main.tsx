@@ -1,8 +1,19 @@
 import { render } from 'preact'
-import { App } from './app.tsx'
+// import { Router, Route } from 'preact-router'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import App from '@/pages/index'
+import ListPage from '@/pages/list'
 import '@unocss/reset/tailwind-compat.css'
 import '@fontsource-variable/plus-jakarta-sans'
 import 'virtual:uno.css'
 import './app.css'
 
-render(<App />, document.getElementById('app')!)
+const router = createBrowserRouter([
+  { path: '/', element: <App /> },
+  { path: '/list', element: <ListPage /> }
+])
+
+render(
+  <RouterProvider router={router} />
+  , document.getElementById('app')!
+)
