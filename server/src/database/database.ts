@@ -1,11 +1,14 @@
 import { Kysely, SqliteDialect } from 'kysely'
 import SQLite from 'better-sqlite3'
+import { existsSync } from 'node:fs'
 import { Database } from './types'
 
-const dialect = new SqliteDialect({
-  database: new SQLite('database.sqlite')
-})
+export const isFresh = !existsSync('database.sqlite')
 
-const db = new Kysely<Database>({ dialect })
+export const db = new Kysely<Database>({
+  dialect: new SqliteDialect({
+    database: new SQLite('database.sqlite')
+  })
+})
 
 export default db

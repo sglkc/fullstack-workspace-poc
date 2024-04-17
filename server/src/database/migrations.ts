@@ -1,4 +1,10 @@
 import { Kysely, sql } from 'kysely'
+import { db, isFresh } from './database'
+
+if (isFresh) {
+  console.warn('New database created, migrating...')
+  up(db)
+}
 
 export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
@@ -15,8 +21,12 @@ export async function up(db: Kysely<any>): Promise<void> {
     col.notNull().defaultTo(sql`CURRENT_TIMESTAMP`)
   )
   .execute()
+
+  console.info('Database migrated')
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
   await db.schema.dropTable('account').execute()
+
+  console.info('Database dropped')
 }
