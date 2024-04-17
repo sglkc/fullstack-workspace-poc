@@ -4,15 +4,28 @@ import { NewAccount, UpdateAccount } from 'src/database/types';
 
 const AccountRoutes: FastifyPluginAsync = async (server, _opts) => {
 
-  server.get(
-    '/', async (_req, res) => {
+  server.get<{ Querystring: { page?: string, limit?: string } }>(
+    '/', async (req, res) => {
+      const page = parseInt(req.query.page || '1')
+      const limit = parseInt(req.query.limit || '10')
+
       const accounts = await db.selectFrom('account')
+        .limit(limit)
+        .offset(page * limit - limit)
         .selectAll()
         .execute()
 
+      const countResult = await db.selectFrom('account')
+        .select((e) => e.fn.count('id').as('count'))
+        .executeTakeFirst()
+
+      const count = Number(countResult!.count)
+
       return res.send({
         status: 'success',
-        results: accounts
+        results: accounts,
+        count: count,
+        pages: Math.ceil(count / limit)
       })
     })
 
